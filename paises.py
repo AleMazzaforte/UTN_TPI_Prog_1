@@ -27,7 +27,8 @@ def cargar_datos(nombre_archivo):
 
     return paises
 
-
+def pausar():
+    input("Presione Enter para continuar...")
 
 #################################
 ###     FILTRAR 
@@ -205,6 +206,97 @@ def ordenar_superficie(paises):
             f"{pais['superficie']} km²"
         )
 
+#################################################
+### ESTADISTICAS
+#################################################
+
+def mostrar_estadisticas(paises):
+
+    try:
+
+        if not paises:
+            raise ValueError(
+                "No hay datos cargados."
+            )
+
+        mayor = paises[0]
+        menor = paises[0]
+
+        suma_poblacion = 0
+        suma_superficie = 0
+
+        continentes = {}
+
+        for pais in paises:
+
+            if pais["poblacion"] > mayor["poblacion"]:
+                mayor = pais
+
+            if pais["poblacion"] < menor["poblacion"]:
+                menor = pais
+
+            suma_poblacion += pais["poblacion"]
+            suma_superficie += pais["superficie"]
+
+            continente = pais["continente"]
+
+            if continente in continentes:
+                continentes[continente] += 1
+            else:
+                continentes[continente] = 1
+
+        promedio_poblacion = (
+            suma_poblacion / len(paises)
+        )
+
+        promedio_superficie = (
+            suma_superficie / len(paises)
+        )
+
+        print("\n=== ESTADISTICAS ===")
+
+        print(
+            "Mayor poblacion:",
+            mayor["nombre"].title(),
+            "-",
+            mayor["poblacion"]
+        )
+
+        print(
+            "Menor poblacion:",
+            menor["nombre"].title(),
+            "-",
+            menor["poblacion"]
+        )
+
+        print(
+            "Promedio poblacion:",
+            round(promedio_poblacion, 2)
+        )
+
+        print(
+            "Promedio superficie:",
+            round(promedio_superficie, 2)
+        )
+
+        print("\nCantidad de paises por continente:")
+
+        for continente in continentes:
+
+            print(
+                continente.title(),
+                ":",
+                continentes[continente]
+            )
+
+    except ValueError as e:
+        print(f"Error: {e}")
+
+    except KeyError as e:
+        print(
+            f"Error: falta la clave {e} en algún país."
+        )
+
 #º  MENU
 
 def mostrar_menu():
@@ -245,25 +337,25 @@ def main():
 
             elif opcion == 4:
                 filtrar_continente(paises)
-
+                pausar()
             elif opcion == 5:
                 filtrar_poblacion(paises)
-
+                pausar()
             elif opcion == 6:
                 filtrar_superficie(paises)
-
+                pausar()
             elif opcion == 7:
                 ordenar_nombre(paises)
-
+                pausar()
             elif opcion == 8:
                 ordenar_poblacion(paises)
-
+                pausar()
             elif opcion == 9:
                 ordenar_superficie(paises)
-
+                pausar()
             elif opcion == 10:
-                pass
-
+                mostrar_estadisticas(paises)
+                pausar()
             elif opcion == 11:
                 print("Programa finalizado")
 
