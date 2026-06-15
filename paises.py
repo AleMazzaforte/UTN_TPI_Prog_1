@@ -318,41 +318,13 @@ def guardar_datos(nombre_archivo, paises):
 
 
 
-#! Cargar datos - CSV
-
-def cargar_datos(nombre_archivo):
-    paises = []
-    try:
-        archivo = open(nombre_archivo, "r", encoding="utf-8")
-        archivo.readline()
-        for linea in archivo:
-            datos = linea.strip().split(",")
-            if len(datos) != 4:
-                continue
-
-            pais = {
-                "nombre": datos[0],
-                "poblacion": int(datos[1]),
-                "superficie": int(datos[2]),
-                "continente": datos[3]
-            }
-            paises.append(pais)
-        archivo.close()
-
-    except FileNotFoundError:
-        print("Error: no se encontro el archivo")
-    except ValueError:
-        print("Error: formato incorrecto en el CSV")
-
-    return paises
-
 
 
 #! Buscar PAIS
 
-def buscar_pais(paises, nombre):
+def buscar_pais(paises):
     encontrado = False
-    nombre = nombre.lower().strip()
+    nombre = input("Ingrese su búsqueda").lower().strip()
     for pais in paises:
         if nombre in pais["nombre"].lower():
 
@@ -469,35 +441,45 @@ def main():
             opcion = int(input("Seleccione una opcion: "))
 
             if opcion == 1:
-                pass
+                agregar_pais(paises)
+                pausar()
 
             elif opcion == 2:
-                pass
+                actualizar_pais(paises)
+                pausar()
 
             elif opcion == 3:
-                pass
+                buscar_pais(paises)
+                pausar()
 
             elif opcion == 4:
                 filtrar_continente(paises)
                 pausar()
+
             elif opcion == 5:
                 filtrar_poblacion(paises)
                 pausar()
+
             elif opcion == 6:
                 filtrar_superficie(paises)
                 pausar()
+
             elif opcion == 7:
                 ordenar_nombre(paises)
                 pausar()
+
             elif opcion == 8:
                 ordenar_poblacion(paises)
                 pausar()
+
             elif opcion == 9:
                 ordenar_superficie(paises)
                 pausar()
+
             elif opcion == 10:
                 mostrar_estadisticas(paises)
                 pausar()
+
             elif opcion == 11:
                 print("Programa finalizado")
 
