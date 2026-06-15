@@ -4,21 +4,21 @@
 def cargar_datos(nombre_archivo):
     paises = []
     try:
-        archivo = open(nombre_archivo, "r", encoding="utf-8")
-        archivo.readline()
-        for linea in archivo:
-            datos = linea.strip().split(",")
-            if len(datos) != 4:
-                continue
+        with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+            archivo.readline()
+            for linea in archivo:
+                datos = linea.strip().split(",")
+                if len(datos) != 4:
+                    continue
 
-            pais = {
-                "nombre": datos[0].lower(),
-                "poblacion": int(datos[1]),
-                "superficie": int(datos[2]),
-                "continente": datos[3].lower()
-            }
-            paises.append(pais)
-        archivo.close()
+                pais = {
+                    "nombre": datos[0].lower(),
+                    "poblacion": int(datos[1]),
+                    "superficie": int(datos[2]),
+                    "continente": datos[3].lower()
+                }
+                paises.append(pais)
+            
         
     except FileNotFoundError:
         print("Error: no se encontro el archivo")
@@ -80,7 +80,7 @@ def pedir_rango():
             print(f"Error: {e}")
 
 def mostrar_resultado_filtro(resultado):
-    
+
     if not resultado:
         print("No se encontraron resultados.")
         return
@@ -90,18 +90,120 @@ def mostrar_resultado_filtro(resultado):
 
 def filtrar_poblacion(paises):
     print("Filtro por población")
-    minimo, maximo = pedir_rango("población")
+    minimo, maximo = pedir_rango()
     resultado = filtrar_por_rango(paises, "poblacion", minimo, maximo)
     mostrar_resultado_filtro(resultado)
 
-
 def filtrar_superficie(paises):
     print("Filtro por superficie en Km²")
-    minimo, maximo = pedir_rango("superficie")
+    minimo, maximo = pedir_rango()
     resultado = filtrar_por_rango(paises, "superficie", minimo, maximo)
     mostrar_resultado_filtro(resultado)
 
 
+#################################
+###     ORDENAR 
+#################################
+
+# Pedir ordenamiento ascendente o descendente
+def opcion_ordenar():
+
+    while True:
+
+        try:
+
+            opcion = input(
+                "1-Ascendente 2-Descendente: "
+            ).strip()
+
+            if opcion not in ["1", "2"]:
+                raise ValueError(
+                    "Debe ingresar 1 o 2."
+                )
+
+            return opcion
+
+        except ValueError as e:
+            print(f"Error: {e}")
+
+# Funcion para ordenar
+def ordenar_paises(paises, campo):
+
+    try:
+
+        if not paises:
+            raise ValueError(
+                "No hay países cargados."
+            )
+
+        opcion = opcion_ordenar()
+
+        cantidad = len(paises)
+
+        for _ in range(cantidad):
+
+            for j in range(cantidad - 1):
+
+                if opcion == "1":
+
+                    if paises[j][campo] > paises[j + 1][campo]:
+
+                        aux = paises[j]
+                        paises[j] = paises[j + 1]
+                        paises[j + 1] = aux
+
+                else:
+
+                    if paises[j][campo] < paises[j + 1][campo]:
+
+                        aux = paises[j]
+                        paises[j] = paises[j + 1]
+                        paises[j + 1] = aux
+
+        print("Ordenamiento completado")
+
+        return paises
+
+    except KeyError:
+        print(
+            f"El campo '{campo}' no existe."
+        )
+
+    except ValueError as e:
+        print(f"Error: {e}")
+
+
+def ordenar_nombre(paises):
+
+    ordenar_paises(paises, "nombre")
+
+    for pais in paises[:10]:
+
+        print(pais["nombre"].title())
+
+
+def ordenar_poblacion(paises):
+
+    ordenar_paises(paises, "poblacion")
+
+    for pais in paises[:10]:
+
+        print(
+            f"{pais['nombre'].title()} - "
+            f"{pais['poblacion']}"
+        )
+
+
+def ordenar_superficie(paises):
+
+    ordenar_paises(paises, "superficie")
+
+    for pais in paises[:10]:
+
+        print(
+            f"{pais['nombre'].title()} - "
+            f"{pais['superficie']} km²"
+        )
 
 #º  MENU
 
@@ -151,13 +253,13 @@ def main():
                 filtrar_superficie(paises)
 
             elif opcion == 7:
-                pass
+                ordenar_nombre(paises)
 
             elif opcion == 8:
-                pass
+                ordenar_poblacion(paises)
 
             elif opcion == 9:
-                pass
+                ordenar_superficie(paises)
 
             elif opcion == 10:
                 pass
