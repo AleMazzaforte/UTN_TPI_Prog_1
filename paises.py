@@ -324,7 +324,7 @@ def guardar_datos(nombre_archivo, paises):
 
 def buscar_pais(paises):
     encontrado = False
-    nombre = input("Ingrese su búsqueda").lower().strip()
+    nombre = input("Ingrese su búsqueda ").lower().strip()
     for pais in paises:
         if nombre in pais["nombre"].lower():
 

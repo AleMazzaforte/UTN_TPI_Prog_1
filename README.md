@@ -96,3 +96,10 @@ argentina | Poblacion: 45376763 | Superficie: 2780400 | Continente: america
 - Interfaz gráfica.
 - Persistencia en base de datos.
 - Generación automática de estadísticas avanzadas
+
+Enlace al Video:
+  https://drive.google.com/file/d/1HUySGiPQrJOVuMlEZzXdgC9L6bUNdfyV/view?usp=sharing
+
+
+Enlace al PDF:  
+  https://drive.google.com/file/d/1MB7cNCyGzA-EGV83WviwkTTu2qyjqpeS/view?usp=sharing
